@@ -1,0 +1,321 @@
+! Users should add all user specific namelist changes below in the form of 
+! namelist_var = new_namelist_value 
+!ncdata='/projects/joco6825/nw_cases/nw_cntrl_03/nw_cntrl_03.cam.i.0005-01-01-00000.nc'
+
+!ncdata='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_07/rest/0001-09-01-00000/nw_cntrl_07.cam.i.0001-09-01-00000.nc'
+!ncdata='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_08/rest/0014-01-01-00000/nw_cntrl_08.cam.i.0014-01-01-00000.nc'
+!ncdata='/projects/joco6825/so2_cases/so2_yr2000_01/nw_cntrl_08.cam2.i.0009-01-01-00000.nc' ! needed to append sulfur variables (set to zero) here
+!ncdata='/projects/joco6825/nw_cases/nw_ur_150_tuv_01/nw_cntrl_08.cam.i.0014-01-01-00000.nc'
+!ncdata='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_tuv_01/rest/0005-01-01-00000/nw_cntrl_tuv_01.cam.i.0005-01-01-00000.nc'
+!ncdata='/scratch/alpine/joco6825/cesm/nw_cases/nw_ur_150_tuv_01/run/nw_cntrl_tuv_01.cam.i.0005-01-01-00000.nc'
+
+inithist='ENDOFRUN'
+
+
+carma_mdust_file                ='/projects/joco6825/cesm215_files/atm/index_Mg01Fe09O.nc'
+ xs_long_file           = '/projects/joco6825/cesm215_files/atm/temp_prs_GT200nm_JPL10_c140624_N2O4.nc'
+
+
+
+carma_mdust_file                ='/projects/joco6825/cesm215_files/atm/index_Mg01Fe09O.nc'
+ xs_long_file           = '/projects/joco6825/cesm215_files/atm/temp_prs_GT200nm_JPL10_c140624_N2O4.nc'
+
+
+ ! TUV for photolysis
+ radxfr_wavelength_grid_file    = 'wavelength_grid_test.nc'
+ radxfr_input_data_root         = '/projects/joco6825/cesm215_files/atm/tuv/'
+
+
+
+
+ radxfr_has_aer_ra_feedback     = .true.
+ radxfr_do_tuv_photo            = .true.
+ radxfr_do_tuv_cloud            = .true.
+ radxfr_do_sfc_export           = .true.
+
+ ! need to add this so tuv handles halogens and radiative transfer (rrtmg throws errors if it is used instead)
+  ! radxfr_do_actinic_so2                = .true.
+  !radxfr_do_actinic_so2                = .false.
+  !radxfr_do_actinic_co2                = .false.
+  !radxfr_do_actinic_h2o                = .false.
+  !radxfr_do_actinic_hbr                = .false.
+  !radxfr_do_actinic_hcl                = .false.
+  !radxfr_do_actinic_no                 = .false.
+  ! radxfr_do_actinic_co2                = .true.
+  ! radxfr_do_actinic_h2o                = .true.
+  ! radxfr_do_actinic_hbr                = .true.
+  ! radxfr_do_actinic_hcl                = .true.
+  ! radxfr_do_actinic_no                 = .true.
+
+!chucks run
+!carma_emis_soot                = 1.5e11
+!carma_emis_startdate           = 05135
+!carma_emis_starttime           = 0
+!carma_emis_stopdate            = 05142
+!carma_emis_stoptime            = 0
+!carma_emis_fire_land_only      = .true.
+!carma_fractal_soot             = .true.
+
+carma_emis_soot                = 1.5e11
+carma_emis_startdate           = 05135 
+carma_emis_stopdate            = 05142
+carma_emis_starttime           = 0
+carma_emis_stoptime            = 0
+carma_fractal_soot             = .true.
+
+carma_emis_so2_fire            = 0
+carma_emis_so2_impact          = 0
+carma_emis_so2_splash          = 0!2.0e13
+
+
+
+
+
+/
+&carma_nl
+ carma_do_coag          = .true.
+ carma_do_drydep                = .true.
+ carma_do_emission              = .true.
+ carma_do_emit_gas              = .false.
+ carma_do_emit_heat             = .false.
+ carma_do_emit_part             = .true.
+ carma_do_fixedinit             = .true.
+ carma_do_grow          = .true.
+ carma_do_grow_limit            = .true.
+ carma_do_optics                = .false.
+ carma_do_oxid          = .false.
+ carma_do_partialinit           = .false.
+ carma_do_substep               = .true.
+ carma_do_vdiff         = .true.
+ carma_do_vtran         = .true.
+ carma_do_wetdep                = .true.
+ carma_flag             = .true.
+ carma_grow_limit_retries               = 5
+ carma_grow_limit_scale         = 0.5
+ carma_hetchem_feedback         = .true.
+ carma_maxretries               = 32
+ carma_maxsubsteps              = 2
+ carma_model            = 'meteor_impact_all'
+ carma_rad_feedback             = .true.
+/
+
+
+
+
+ gas_wetdep_list                = 'BRONO2', 'CH2O', 'CH3OOH', 'CLONO2', 'COF2', 'COFCL', 'H2O2', 'HBR', 'HCL', 'HF', 'HNO3', 'HO2NO2', 'HOBR',
+         'HOCL', 'NO2', 'NO', 'N2O5', 'N2O4', 'HONO', 'H2SO4', 'SO2'
+
+
+ ! Add wetdep of NO2 and NO along with aqueous NO and NO2 chemistry
+! gas_wetdep_do_aq_nox           = .true.
+
+ drydep_list = 'CH2O', 'CH3OOH', 'CO', 'H2O2', 'HNO3', 'HO2NO2', 'NO', 'NO2', 'O3', 'HONO', 'N2O4', 'N2O5'
+!drydep_list = 'CH2O', 'CH3OOH', 'CO', 'H2O2', 'HNO3', 'HO2NO2', 'NO', 'NO2', 'O3', 'HONO', 'N2O4', 'N2O5', 'SO2', 'H2SO4'
+! drydep_do_aq_nox               = .true.
+
+
+ carma_do_grow          = .true.
+ carma_do_partialinit           = .false.
+ carma_do_substep               = .true.
+ carma_maxretries               = 32
+ carma_maxsubsteps              = 2
+ carma_rad_feedback         = .true.
+ carma_hetchem_feedback         = .true.
+
+
+
+ ext_frc_type           = 'INTERP_MISSING_MONTHS'
+! ext_frc_specifier = 'SO2 -> /glade/work/crtabor/KPg_setup/GlobalVolcSO2Emis1850-2016_VolcanEESMv1.0noVEI_Chi18-20km_Pin10.0Tg_0N-15N_18-20km_2deg_c160918_100.nc'
+ ext_frc_specifier = ''
+ ext_frc_cycle_yr = 0
+
+
+
+
+
+
+
+
+
+! Changes for stability
+ trop_cloud_top_press           = 1.D-4
+
+ irad_always                    = 0
+ iradlw                         = 1
+ iradsw                         = 1
+
+ fv_div24del2flag               = 42
+
+ state_debug_checks             = .true.
+
+! SOOT EMISSION SETTINGS: use these for beginning of 150 Tg soot injection!
+! fv_nsplit                      = 256
+! fv_nspltrac                    = 32
+! fv_nspltvrm                    = 32
+ fv_substep_uv                  = .true.
+ fv_substep_t                   = .true.
+
+! next attempt: divide everything by two as run continues, peak heating should be done by 0008-01
+ fv_nsplit=36
+ fv_nspltrac=12
+ fv_nspltvrm=12
+
+! IF SOOT EMISSION CASE, DO:
+! fv_nsplit                      = 256
+! fv_nspltrac                    = 32
+! fv_nspltvrm                    = 32
+! fv_substep_uv                  = .true.
+! fv_substep_t                   = .true.
+! IF CONTROL CASE, DO:
+! fv_nsplit                      = 36
+! fv_nspltrac                    = 12
+! fv_nspltvrm                    = 12
+! fv_substep_uv                  = .true.
+! fv_substep_t                   = .true.
+
+
+
+ dadadj_nlvdry                  = 42
+ dadadj_niter                   = 200
+ dadadj_mixall                  = .true.
+ dadadj_mixuv                   = .true.
+
+ radheat_limit_dt               = .true.
+ dtk_limit                      = 0.25
+!dtk_limit                      = 0.1 !for TUV stability if needed
+
+ ! Turn off nudged QBO
+ qbo_use_forcing                = .false.
+ qbo_forcing_file               = ' '
+
+
+
+
+
+
+
+
+! Output settings
+
+ history_chemistry = .false.
+
+ rxn_rate_sums = 'OddOx_Ox_Loss  = 2.0*O_O3 +  2.0*O_O',
+         'OddOx_HOx_Loss = HO2_O + HO2_O3 + OH_O + OH_O3 + H_O3 + H2_O + H2O2_O',
+         'OddOx_NOx_Loss = 2.0*NO2_O + 2.0*jno3_b',
+         'OddOx_CLOxBROx_Loss = 2.0*CLO_O + 2.0*jcl2o2 + 2.0*CLO_CLOa + 2.0*CLO_CLOb + 2.0*BRO_CLOb + 2.0*BRO_CLOc + 2.0*BRO_BRO + 2.0*BRO_O + CLO_HO2 + BRO_HO2',
+         'OddOx_Loss_More = NO3_HO2 + 2.0*NO3_O + NO3_OH + CH2O_NO3 + CH2O_O + N_NO2b + N_NO2c + CLO_CH3O2 + CLO_HO2 + CLO_OHa + CLO_OHb +  HCL_O +  BRO_OH + HBR_O',
+         'OddOx_Loss_Het  = N2O5_aer + 0.5*NO2_aer + NO3_aer + het1 + het2 + het3 + het4 + het7 + het8 + het9  + het11 + het12 + het13 + het14 + het15',
+         'OddOx_Loss_O1D  = O1D_O3 + O1D_H2 + O1D_H2O',
+         'OddOx_Loss_O1D_More  =  O1D_N2Oa + O1D_N2Ob + O1D_CH4a + O1D_CH4b + O1D_CH4c + O1D_CH2BR2 + O1D_HCFC141B + O1D_HCFC142B + O1D_HCFC22 + O1D_COF2 +',
+         'O1D_COFCL + O1D_CF3BR + O1D_CHBR3 + O1D_H2402 + O1D_HBRa + O1D_HBRb + O1D_CCL4 + O1D_CFC11 + O1D_CFC113 + O1D_CFC114 + O1D_CFC115 + O1D_CFC12 + O1D_HCLa',
+         'OddOx_Prod_JO2  = 2.0*jo2_a + 2.0*jo2_b',
+         'OddOx_Prod_More = jho2no2_a + HNO3_OH + F_HNO3 + OH_OH + jno + jh2o_c + H_HO2b + N_NO + N2D_O2 + N_O2 + CL_HO2b + HOCL_CL',
+         'OddOx_Prod_O1D = jn2o + jh2o_b',
+         'OddOx_Prod_EUV = 2.0*jeuv_7 + 2.0*jeuv_8 + 2.0*jeuv_9 + 2.0*jeuv_12 + 2.0*jeuv_19 + 2.0*jeuv_20 + 2.0*jeuv_21 + 2.0*jeuv_24',
+         'OddOx_Prod_Smog = NO_HO2 + CH3O2_NO',
+         'O3_Prod = NO_HO2 + CH3O2_NO',
+         'RO2_NO_sum  = NO_HO2 + CH3O2_NO',
+         'O3_Loss = O1D_H2O + OH_O3 + HO2_O3 + H_O3',
+         'OddOx_Prod_Tot  = 2.0*jo2_a + 2.0*jo2_b +',
+           'jho2no2_a + HNO3_OH + F_HNO3 + OH_OH + jno + jh2o_c + H_HO2b + N_NO + N2D_O2 + N_O2 + CL_HO2b + HOCL_CL +',
+           'jn2o + jh2o_b +',
+           '2.0*jeuv_7 + 2.0*jeuv_8 + 2.0*jeuv_9 + 2.0*jeuv_12 + 2.0*jeuv_19 + 2.0*jeuv_20 + 2.0*jeuv_21 + 2.0*jeuv_24 +',
+           'NO_HO2 + CH3O2_NO',
+         'OddOx_Loss_Tot = 2.0*O_O3 + O1D_H2O + HO2_O + HO2_O3 + OH_O + OH_O3 + H_O3 + 2.0*NO2_O + 2.0*jno3_b + 2.0*CLO_O + 2.0*jcl2o2 + 2.0*CLO_CLOa + 2.0*CLO_CLOb + 2.0*BRO_CLOb +',
+           '2.0*BRO_CLOc + 2.0*BRO_BRO + 2.0*BRO_O + CLO_HO2 + BRO_HO2 +',
+           'NO3_HO2 + 2.0*NO3_O + NO3_OH + CH2O_NO3 + CH2O_O + N_NO2b + N_NO2c + CLO_CH3O2 + CLO_HO2 + CLO_OHa + CLO_OHb +  HCL_O +  BRO_OH + HBR_O +',
+           'N2O5_aer + 0.5*NO2_aer + NO3_aer + het1 + het2 + het3 + het4 + het7 + het8 + het9  + het11 + het12 + het13 + het14 + het15 +',
+           'O1D_N2Oa + O1D_N2Ob + O1D_CH4a + O1D_CH4b + O1D_CH4c + O1D_CH2BR2 + O1D_HCFC141B + O1D_HCFC142B + O1D_HCFC22 + O1D_COF2 +',
+           'O1D_COFCL + O1D_CF3BR + O1D_CHBR3 + O1D_H2402 + O1D_HBRa + O1D_HBRb + O1D_CCL4 + O1D_CFC11 + O1D_CFC113 + O1D_CFC114 + O1D_CFC115 + O1D_CFC12 + O1D_HCLa +',
+           'O1D_O3 + O1D_H2 + O1D_H2O'
+
+
+
+
+
+
+
+
+
+
+
+! Output settings
+
+avgflag_pertape                 = 'A', 'A', 'I', 'A'
+
+fexcl1 = 'CFC11_CHML','CFC12_CHML','CH4_CHML','N2O_CHML'
+
+
+
+
+
+fincl1         = 'AOA1', 'AOA2', 'CLDHGH', 'CLDLOW', 'CLDMED', 'CLDTOT', 'CLO', 'CLONO2', 'CLOUD',
+         'DTCOND', 'DTV', 'DUV', 'DVV', 'EKGW', 'FLNS', 'FLNSC', 'FLNT', 'FLNTC',
+         'FSDS', 'FSNS', 'FSNSC', 'FSNT', 'FSNTC', 'HORZ', 'LANDFRAC', 'LHFLX', 'OCNFRAC',
+         'OH', 'OMEGA', 'PHIS', 'PRECC', 'PRECL', 'PS', 'QFLX', 'QRL', 'QRLNLTE',
+         'QRS', 'RELHUM', 'SHFLX', 'SOLIN', 'SWCF', 'QCP', 'QTHERMAL', 'QRL_TOT', 'QRS_TOT',
+         'QJOULE', 'PSL', 'HNO3_STS', 'HNO3_NAT', 'HNO3_GAS', 'NO_Lightning', 'QNO', 'QRS_AUR', 'QRS_CO2NIR',
+         'QRS_EUV', 'SAD_ICE', 'SAD_LNAT', 'SAD_SULFC', 'TREFHT', 'TTGW', 'UTGWORO', 'UTGWSPEC', 'VERT',
+         'VTGWORO', 'VTGWSPEC', 'Z3', 'HOX', 'NOX', 'NOY', 'CLOX', 'CLOY', 'BROX',
+         'BROY', 'TCLY','TBRY','TOTH', 'QJOULE', 'UI', 'VI', 'UIONTEND', 'VIONTEND', 'DTCORE',
+         'T_24_COS', 'T_24_SIN', 'T_12_COS', 'T_12_SIN', 'OMEGA_24_COS', 'OMEGA_24_SIN', 'OMEGA_12_COS', 'OMEGA_12_SIN', 'U_24_COS',
+         'U_24_SIN', 'U_12_COS', 'U_12_SIN', 'V_24_COS', 'V_24_SIN', 'V_12_COS', 'V_12_SIN', 'PS_24_COS', 'PS_24_SIN',
+         'PS_12_COS', 'PS_12_SIN', 'CLDLIQ', 'CLDICE', 'CONCLD', 'FRONTGF:I', 'BUTGWSPEC', 'BTAUE', 'BTAUW',
+         'BTAUN', 'BTAUS', 'TAUE', 'TAUW', 'TAUN', 'TAUS', 'TAUGWX', 'TAUGWY', 'TAUX',
+         'TAUY', 'SNOWHLND', 'SNOWHICE', 'ICEFRAC', 'FSDSC', 'SFNO', 'SFCO', 'SFCH2O', 'CFC11STAR',
+         'TROPP_FD', 'TROP_P', 'TROP_T', 'TROP_Z', 'SAD_AERO', 'REFF_AERO',
+         'CO2', 'H2O', 'N2O', 'CH4', 'N2O5', 'NO2', 'NO', 'NOX', 'NOY',
+         'WD_NO', 'WD_NO2', 'WD_N2O5', 'WD_N2O4', 'WD_HONO',
+         'DTWR_NO', 'DTWR_NO2', 'DTWR_N2O5', 'DTWR_N2O4', 'DTWR_HONO',
+         'HEFF_NO', 'HEFF_NO2', 'HEFF_N2O5', 'HEFF_N2O4', 'HEFF_HONO',
+         'BRONO2', 'CH2O', 'CH3OOH', 'CLONO2', 'COF2', 'COFCL', 'H2O2', 'HBR', 'HCL', 'HF', 'HNO3', 'HO2NO2', 'HOBR',
+         'HOCL','TS','O3'
+         'HEFF_BRONO2', 'HEFF_CH2O', 'HEFF_CH3OOH', 'HEFF_CLONO2', 'HEFF_COF2', 'HEFF_COFCL',
+         'HEFF_H2O2', 'HEFF_HBR', 'HEFF_HCL', 'HEFF_HF', 'HEFF_HNO3','HEFF_HO2NO2', 'HEFF_HOBR', 'HEFF_HOCL',
+         'CRDUSTMR','CRDUSTND','CRDUSTMD','CRDUSTRE','CRDUSTOD','CRDUSTEM','CRDUSTDD','CRDUSTSW',
+         'CRSOOTMR','CRSOOTND','CRSOOTMD','CRSOOTRE','CRSOOTOD','CRSOOTEM','CRSOOTDD','CRSOOTSW',
+         'CRCSOTMR','CRCSOTND','CRCSOTMD','CRCSOTRE','CRCSOTOD','CRCSOTEM','CRCSOTDD','CRCSOTSW',
+          'SO2', 'H2SO4', 'PURSULMR', 'PURSUL01', 'PURSUL02', 'PURSUL03', 'PURSUL04', 'PURSUL05', 'PURSUL06', 'PURSUL07', 'PURSUL08', 'PURSUL09', 'PURSUL10',
+          'NOEM','HBREM','HCLEM','SO2EM','QEM','CRSOOTEM','CRCSOTEM','CRDUSTEM', 'PURSULMR',
+          'PURSUL21', 'SO2EM', 'Q', 'H2O', 'OH', 'T', 'CRSOOTMR', 'CRCSOTMR', 'CRDUSTMR', 'TS', 'U10', 'PRECT', 'CLDTOT', 'ICEFRAC', 'NOX', 'HBR', 'HCL', 'T', 'H2O',
+          'FLDS','FLNS','FLNSC','FLNT','FLNTC','FLUT','FLUTC','FSDS','FSDSC','FSNS','FSNSC','FSNT','FSNTC','FSNTOA','FSNTOAC',
+                  'CRSOOTMR', 'CRSOOT01', 'CRSOOT02', 'CRSOOT03', 'CRSOOT04', 'CRSOOT05', 'CRSOOT06', 'CRSOOT07', 'CRSOOT08', 'CRSOOT09', 'CRSOOT10','CRSOOT11', 'CRSOOT12', 'CRSOOT13', 'CRSOOT14', 'CRSOOT15', 'CRSOOT16', 'CRSOOT17', 'CRSOOT18', 'CRSOOT19', 'CRSOOT20','CRSOOT21',
+          'CRCSOTMR', 'CRCSOT01', 'CRCSOT02', 'CRCSOT03', 'CRCSOT04', 'CRCSOT05', 'CRCSOT06', 'CRCSOT07', 'CRCSOT08', 'CRCSOT09', 'CRCSOT10','CRCSOT11', 'CRCSOT12', 'CRCSOT13', 'CRCSOT14', 'CRCSOT15', 'CRCSOT16', 'CRCSOT17', 'CRCSOT18', 'CRCSOT19', 'CRCSOT20','CRCSOT21',
+          'CRDUSTMR', 'CRDUST01', 'CRDUST02', 'CRDUST03', 'CRDUST04', 'CRDUST05', 'CRDUST06', 'CRDUST07', 'CRDUST08', 'CRDUST09', 'CRDUST10','CRDUST11', 'CRDUST12', 'CRDUST13', 'CRDUST14', 'CRDUST15', 'CRDUST16', 'CRDUST17', 'CRDUST18', 'CRDUST19', 'CRDUST20','CRDUST21',
+        'N2O5', 'N2O4', 'HONO','HBR','HBREM','HCL','HCLEM','NO','NOEM','HEATEM','NO2','NOX', 'NOY',
+         'H2SO4M_C', 'SAD_STRAT', 'SAD_SAGE', 'SAD_AERO', 'REFF_AERO',
+         'FLNS', 'FLNSC', 'FLNT', 'FLNTC', 'FSDS', 'FSNS', 'FSNSC', 'FSNT', 'FSNTC', 'FSDSC',
+         'FLUTC', 'FLUT', 'FSNTOAC', 'FSNTOA', 'FSUTOA', 'LWCF',  'FLNR', 'FSNR', 'jchbr3', 'jbrono2_a', 'jbrono2_b',
+         'OddOx_Loss_More', 'OddOx_Loss_Het', 'OddOx_Loss_O1D', 'OddOx_Loss_O1D_More', 'OddOx_Prod_O1D', 'OddOx_Prod_EUV', 'OddOx_Prod_More', 'OddOx_Prod_JO2', 'OddOx_Prod_Smog',
+         'O3_Prod', 'O3_Loss', 'OddOx_Ox_Loss', 'OddOx_HOx_Loss', 'OddOx_NOx_Loss',
+         'OddOx_CLOxBROx_Loss', 'OddOx_Loss_Tot', 'OddOx_Prod_Tot',
+         'RAD_SULFC', 'VEL_NAT2', 'TUV_AFLX121', 'TUV_AFLX180', 'TUV_AFLX210', 'TUV_AFLX240', 'TUV_AFLX308', 'TUV_AFLX400', 'TUV_AFLXLOW',
+         'TUV_AFLX600', 'TUV_AFLXHIGH', 'TUV_TAULOW', 'TUV_TAU600', 'TUV_TAUHIGH', 'TUV_WLOW', 'TUV_W600', 'TUV_WHIGH', 'TUV_GLOW',
+         'TUV_G600', 'TUV_GHIGH', 'TUV_UVA', 'TUV_UVB', 'TUV_UVBSTAR', 'TUV_UVINDEX', 'TUV_UVINDEXMX:X', 'TUV_PAR', 'TUV_UVC',
+         'TUV_VIS', 'TUV_SCUPMICE93', 'TUV_ERYTCIE87','TUV_PLANT71', 'TUV_PLANT03', 'TUV_DNA74', 'TUV_LENS01', 'TUV_PHYTOPRORO92',
+         , 'TUV_VITDCIE06', 'TUV_NMSCCIE06', 'TUV_OTLV92', 'TUV_ERYH95', 'TUV_SCUPMAN94','TUV_PHYTO19_UVC','TUV_PHYTO17_UVC','TUV_PHYTO92_UVA','TUV_PHYTO92_UVB','TUV_PHYTO92_UVC'
+
+
+
+
+ fincl2                         = 'PS','Q','QEM','CO2','CO2EM','U','V','Z3','OMEGA',
+         'T','CLDLIQ','CLDICE','CLOUD','RELHUM','PRECC','PRECL','PRECT','FSDS','FLDS',
+         'QRS_TOT', 'QRL_TOT','TS','TSMN:M','TSMX:X','TCLY','TBRY','BROY','BROX','CLOY','CLOX'
+         'CRSOOTMR','CRSOOTND','CRSOOTMD','CRSOOTRE','CRSOOTOD','CRSOOTEM','CRSOOTDD','CRSOOTSW' 'CRDUSTEM','CRDUSTMR',
+          'TUV_UVA', 'TUV_UVB', 'TUV_UVBSTAR', 'TUV_UVINDEX', 'TUV_UVINDEXMX:X', 'TUV_PAR', 'TUV_UVC', 'TUV_VIS', 'TUV_PARE','TUV_PHYTOPRORO92', 'O3', 'CRSOOTMR''CRCSOTMR','CRCSOTND','CRCSOTMD','CRCSOTRE','CRCSOTOD','CRCSOTEM','CRCSOTDD','CRCSOTSW','CRDUSTMR','CRDUSTND','CRDUSTMD','CRDUSTRE','CRDUSTOD','CRDUSTEM','CRDUSTDD','CRDUSTSW'
+
+fincl3         = ''
+fincl4         = ''
+fincl5         = ''
+fincl6         = ''
+fincl7         = ''
+fincl8         = ''
+
+!nhtfrq                         =  -24, 1, -24, -240
+!mfilt                          =  1,   1,   1,  365
+!nhtfrq                         =  0,  1, -24, -240
+!mfilt                          =  1,  200,   1,  365
+
+!long-term setup
+ mfilt          = 1,365,30,120,240
+ nhtfrq         = 0,-24,-24,-6,-3
