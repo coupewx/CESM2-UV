@@ -1,0 +1,83 @@
+!----------------------------------------------------------------------------------
+! Users should add all user specific namelist changes after these comments 
+! in the form of 
+!   namelist_var = new_namelist_value 
+! *** EXCEPT FOR ***
+! 1. DO NOT CHANGE iyear0, imonth0, iday0, ihour0 
+! 2. DO NOT CHANGE any tavg_nml namelist variables below - copy any of the files
+!      $SRCROOT/components/pop/input_templates/ocn.base.tavg.csh  
+!      $SRCROOT/components/pop/input_templates/ocn.ecosys.tavg.csh  
+!      $SRCROOT/components/pop/input_templates/ocn.iage.tavg.csh  
+!      $SRCROOT/components/pop/input_templates/ocn.cfc.tavg.csh 
+!      $SRCROOT/components/pop/input_templates/ocn.abio_dic_dic14.tavg.csh
+!      $SRCROOT/components/pop/input_templates/ocn.ciso.tavg.csh  
+!      $SRCROOT/components/pop/input_templates/ocn.IRF.tavg.csh  
+!    into $CASEROOT/SourceMods/src.pop and edit them there. Invoke preview-namelist
+!    to see the changes in CaseDocs/pop_in
+! Also
+! 3. WARNING: The present code makes assumptions about the region boundaries -- 
+!    do not change transport_reg2_names unless you know exactly what you are doing
+! 4. NOTE: a handful of pop namelist variabes have the same names in multiple pop 
+!    namelists - these are the following
+!      ah              (hmix_del4t_nml, hmix_del2t_nml, hmix_gm_nml)
+!      am              (hmix_del4u_nml, hmix_del2u_nml)
+!      lauto_hmix      (hmix_del4t_nml, hmix_del2t_nml,
+!                       hmix_del4u_nml, hmix_del2u_nml)
+!      lvariable_hmix  (hmix_del4t_nml, hmix_del2t_nml, 
+!                       hmix_del4u_nml, hmix_del2u_nml)
+!      rich_mix        ( vmix_rich_nml,   vmix_kpp_nml)
+!      tracer_init_ext (    ecosys_nml,       iage_nml,     cfc_nml)
+!      gas_flux_fice   (    ecosys_nml,        cfc_nml)
+!      gas_flux_ws     (    ecosys_nml,        cfc_nml)
+!      gas_flux_ap     (    ecosys_nml,        cfc_nml)
+!
+!    If any of the above are to be modified here namelist_var shoud be as follows    
+!      ah => ah&hmix_del4t_nml, ah&hmix_del2t_nml, ah&hmix_gm_nml  
+!      am => am&hmix_del4u_nml, am&hmix_del2u_nml  
+!      lauto_hmix => lauto_hmix&del4t_nml, lauto_hmix&del2t_nml, 
+!                    lauto_hmix&del4u_nml, lauto_hmix&del2u_nml
+!      lvariable_hmix => lvariable_hmix&del4t_nml, lvariable_hmix&del2t_nml, 
+!                        lvariable_hmix&del4u_nml, lvariable_hmix&del2u_nml
+!      rich_mix => rich_mix&vmix_rich_nml, rich_mix&vmix_kpp_nml  
+!
+!    Example - if you change the default value of ah to 0.7e7 in the
+!    namelist hmix_del2t - you would add the following line below
+!      ah&hmix_del2t_nml = 0.7e7
+!
+!    Note that tracer_init_ext, gas_flux_fice, gas_glux_ws, and gas_flux_ap are
+!    Fortran derived types, so you also need to specify their components (and
+!    tracer_init_ext is an array, to further complicate things). For example
+!      tracer_init_ext(5)%scale_factor&ecosys_nml = 1.1
+!      gas_flux_ap%default_val&cfc_nml = 0
+! 4. To preview the namelists, invoke $CASEROOT preview-namelists and look at 
+!    $CASEROOT/CaseDocs/pop_in
+!----------------------------------------------------------------------------------
+
+! set physical temperature state
+init_ts_option = 'ccsm_continue' !set to ccsm_hybrid at start - this is so it uses the POP2 physical state from restart files
+!init_ts_option='ccsm_branch'
+
+!init_ts_file='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_08/rest/0009-01-01-00000/nw_cntrl_08.pop.r.0009-01-01-00000.nc'
+! note this was not used init_ts_file='/projects/joco6825/nw_cases/nw_cntrl_test_02/rest_files/b.e21.BHIST.f09_g17.CMIP6-historical.001_CAM6_POP2_4p2z.pop.r.2015-01-01-00000.nc'
+
+
+!set biogeochemical ocean state
+
+
+
+init_ecosys_option='ccsm_continue'! 'ccsm_hybrid'!'ccsm_startup' !set to ccsm_startup at first
+!init_ecosys_option='ccsm_branch'
+!init_ecosys_init_file='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_08/rest/0009-01-01-00000/nw_cntrl_08.pop.r.0009-01-01-00000.nc'
+
+
+!init_ts_file='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_08/rest/0014-01-01-00000/nw_cntrl_08.pop.r.0014-01-01-00000.nc'
+!init_ecosys_init_file='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_08/rest/0014-01-01-00000/nw_cntrl_08.pop.r.0014-01-01-00000.nc'
+
+
+!init_ts_file='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_tuv_01/rest/0005-01-01-00000/nw_cntrl_tuv_01.pop.r.0005-01-01-00000.nc'
+!init_ecosys_init_file='/scratch/alpine/joco6825/cesm/nw_cases/archive/nw_cntrl_tuv_01/rest/0005-01-01-00000/nw_cntrl_tuv_01.pop.r.0005-01-01-00000.nc'
+
+
+
+
+

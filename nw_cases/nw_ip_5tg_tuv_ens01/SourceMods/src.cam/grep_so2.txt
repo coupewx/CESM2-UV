@@ -1,0 +1,52 @@
+mo_chm_diags.F90:    id_so2     = get_spc_ndx( 'SO2' )
+mo_drydep.F90:    so2_ndx     = get_spc_ndx( 'SO2' )
+mo_drydep.F90:             case( 'SO2' )
+mo_drydep.F90:                      ! assume no surface resistance for SO2 over water`
+mo_drydep.F90:                !  JFL - increase in dry deposition of SO2 to improve bias over US/Europe
+module_xsections.F90:!=  Read SO2 molecular absorption cross section.  Re-grid data to match      =*
+module_xsections.F90:! SO2 absorption cross sections from J. Quant. Spectrosc. Radiat. Transfer
+module_xsections.F90:      OPEN(UNIT=kin,FILE=trim(input_data_root)//'/DATAE1/SO2/SO2xs.all',STATUS='old')
+module_xsections.F90:!=  Read SO2 molecular absorption cross section.  Re-grid data to match      =*
+mo_gas_phase_chemdr.F90:    so2_ndx = get_spc_ndx('SO2')
+mo_gas_phase_chemdr.F90:          ! SO2 column.
+mo_neu_wetdep.F90:! CCMI: added SO2t and NH_50W
+mo_neu_wetdep.F90:      case ( 'SO2t' )
+mo_neu_wetdep.F90:         test_name = 'SO2'
+mo_usrrxt.F90:  integer :: usr_SO2_OH_ndx
+mo_usrrxt.F90:    usr_SO2_OH_ndx       = get_rxt_ndx( 'usr_SO2_OH' )
+mo_usrrxt.F90:    usr_strat_tau_ndx(17) = get_rxt_ndx( 'usr_SO2t_strat_tau' )
+mo_usrrxt.F90:                            ,usr_MCO3_NO2_ndx,usr_MPAN_M_ndx,usr_XOOH_OH_ndx,usr_SO2_OH_ndx,usr_DMS_OH_ndx,usr_HO2_aer_ndx &
+mo_usrrxt.F90:    !        ... Aqueous phase sulfur quantities for SO2 + H2O2 and SO2 + O3
+mo_usrrxt.F90:    real(r8), parameter  :: HENRY298_SO2  =  1.23e+00_r8
+mo_usrrxt.F90:    real(r8), parameter  :: H298_SO2      = -6.25e+03_r8
+mo_usrrxt.F90:    real(r8), parameter  :: K298_SO2_HSO3 =  1.3e-02_r8
+mo_usrrxt.F90:    real(r8), parameter  :: H298_SO2_HSO3 = -4.16e+03_r8
+mo_usrrxt.F90:!       ... DMS + OH  --> .5 * SO2
+mo_usrrxt.F90:!       ... SO2 + OH  --> SO4  (REFERENCE?? - not Liao)
+mo_usrrxt.F90:       if( usr_SO2_OH_ndx > 0 ) then
+mo_usrrxt.F90:          rxt(:,k,usr_SO2_OH_ndx) = ko(:)*.6_r8**(1._r8 + (log10(fc(:)*m(:,k)/1.5e-12_r8))**2._r8)**(-1._r8)
+mo_usrrxt.F90:       !     ... DMS + OH --> 0.75 SO2 + 0.25 MSA
+mo_usrrxt.F90:          !     ... SO2 + H2O2 --> S(VI)
+mo_usrrxt.F90:                  HENRY298_SO2 * &
+mo_usrrxt.F90:                  K298_SO2_HSO3 * &
+mo_usrrxt.F90:                  exp(((H298_SO2 + H298_SO2_HSO3 + H298_H2O2) / R_CAL) * &
+mo_usrrxt.F90:          !     ... SO2 + O3 --> S(VI)
+mo_usrrxt.F90:                  HENRY298_SO2 * exp((H298_SO2 / R_CAL) * &
+mo_usrrxt.F90:                  K298_SO2_HSO3 * exp((H298_SO2_HSO3 / R_CAL) * &
+mo_waccm_hrates.F90:        id_so2   = get_spc_ndx( 'SO2' )
+mo_waccm_hrates.F90:        call addfld( 'QRS_SO2A',   (/ 'lev' /), 'I', 'K/s', trim(attr) )
+mo_waccm_hrates.F90:        call addfld( 'QRS_SO2B',   (/ 'lev' /), 'I', 'K/s', trim(attr) )
+mo_waccm_hrates.F90:         ! SO2 column.
+mo_waccm_hrates.F90:      call outfld( 'QRS_SO2A', qrs(:,:,1), ncol, lchnk )
+mo_waccm_hrates.F90:      call outfld( 'QRS_SO2B', qrs(:,:,2), ncol, lchnk )
+namelist_definition.xml: ext_frc_specifier = 'SO2 -> /path/vrt.emis.so2.nc',
+radxfr_cam.F90:        write(iulog,*) "WV, NO2a, NO2b, O2, SO2, CO2, HBR, HCL, H2O, NO"
+seq_drydep_mod.F90:  !--- rgss: Ground surface resistance for SO2      (s.m-1)
+seq_drydep_mod.F90:  !--- rcls: Lower canopy resistance for SO2        (s.m-1)
+seq_drydep_mod.F90:       ,1.e-36_r8 & ! SO2
+seq_drydep_mod.F90:       ,'SO2     '                       &
+seq_drydep_mod.F90:       if ( trim(drydep_list(i)) == 'SO2' )  so2_ndx  = i
+tuv_subs.F90:!=  Set up an altitude profile of SO2 molecules, and corresponding absorption
+tuv_subs.F90:!=  that allows scaling of the entire profile to a given overhead SO2
+tuv_subs.F90:!=  SO2_XS - REAL, molecular absoprtion cross section (cm^2) of O2 at     (I)
+tuv_subs.F90:!=  DTSO2  - REAL, optical depth due to SO2 absorption at each            (O)
