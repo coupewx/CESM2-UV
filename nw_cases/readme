@@ -1,0 +1,7 @@
+nw_cases contains SourceMods, user_nl_* files, restart files, and aerosol property files to run CESM with black carbon emissions to simulate nuclear war scenarios.
+
+nw_cases/aerosol_files contains aerosol property files that must be moved to $RUNDIR.
+nw_cases/rest_files contains restart files to start nuclear war scenario simulation.
+nw_cases/nw_ur_150_tuv_01 contains simulation information for 150 Tg United States and Russia nuclear war scenario simulation.
+nw_cases/nw_ip_46p8tg_tuv_01 contains simulation information for 46.8 Tg India and Pakistan nuclear war scenario simulation.
+nw_cases/nw_ip_5tg_tuv_ens01 contains simulation information for 5 Tg India and Pakistan nuclear war scenario simulation.
